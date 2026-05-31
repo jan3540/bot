@@ -114,12 +114,13 @@ export const INITIAL_DRAFT: DraftPost = {
   updatedAt: '刚刚'
 };
 
-// 模拟自动化发布的阶段日志数据生成器
+// 模拟自动化发布的阶段日志数据生成器 (支持防风控及指纹盾仿真日志输出)
 export const getPublishingLogs = (platforms: string[], title: string) => {
   const logs: string[] = [];
-  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 🚀 启动多端智能分发引擎...`);
-  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 📁 正在解析草稿包 [标题: "${title}"]`);
-  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 🔑 正在提取本地 LocalStorage 中的加密安全凭证...`);
+  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 🚀 启动多端智能分发安全引擎...`);
+  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 🛡️ 启动指纹盾隔离守护机制，分配高匿名沙箱浏览器示例`);
+  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 📁 正在解析原创草稿包 [标题: "${title}"]`);
+  logs.push(`[SYSTEM] [${new Date().toLocaleTimeString()}] 🔑 正在提取本地 LocalStorage 中的加密安全凭证与加密 Session...`);
 
   platforms.forEach((platform) => {
     const name = platform === 'xiaohongshu' ? '小红书'
@@ -127,27 +128,46 @@ export const getPublishingLogs = (platforms: string[], title: string) => {
                : platform === 'wechat' ? '微信公众号'
                : '哔哩哔哩';
     
-    logs.push(`\n[${platform.toUpperCase()}] === 开始推送渠道: ${name} ===`);
-    logs.push(`[${platform.toUpperCase()}] 🌐 正在后台建立无头浏览器安全会话...`);
-    logs.push(`[${platform.toUpperCase()}] 🔄 检测到本地有效的 Session Cookie，执行指纹登录绕过二次验证...`);
-    logs.push(`[${platform.toUpperCase()}] 🟢 账号认证成功: 成功登录目标接口`);
-    logs.push(`[${platform.toUpperCase()}] 📤 正在上传并分块编码附件资源 (1/2)...`);
-    logs.push(`[${platform.toUpperCase()}] 📤 正在上传并分块编码附件资源 (2/2)...`);
-    logs.push(`[${platform.toUpperCase()}] ✍️ 正在定位编辑器 DOM 元素并注入自适应排版内容...`);
+    logs.push(`\n[${platform.toUpperCase()}] === 开始安全分发渠道: ${name} ===`);
+    logs.push(`[${platform.toUpperCase()}] 🌐 挂载独立家庭住宅 IP 代理: 124.64.18.232 (高匿 SOCKS5)`);
+    logs.push(`[${platform.toUpperCase()}] 💻 注入隔离指纹盾: 模拟 Chrome 124 (Win10) / WebGL GPU: RTX 4060`);
+    logs.push(`[${platform.toUpperCase()}] 🔄 检测到本地有效的 Session Cookie，执行安全特征绕过二次验证...`);
+    logs.push(`[${platform.toUpperCase()}] 🟢 账号指纹认证成功，节点通畅度 99.8%`);
     
+    // AI 变体
+    logs.push(`[${platform.toUpperCase()}] ✍️ 开启同质化文本防护，执行 AI 差异化 A/B 改写置换...`);
     if (platform === 'xiaohongshu') {
-      logs.push(`[小红书] 📝 匹配卡片编辑器成功，自动解析并渲染 ${title.slice(0, 10)}... 的标签包`);
+      logs.push(`[小红书] 📝 编译标题变体: "✨家人们！${title.slice(0, 15)}..."`);
     } else if (platform === 'weibo') {
-      logs.push(`[微博] ⚡ 计算微博正文字数，校验 140 字短文格式，嵌入超链接...`);
-    } else if (platform === 'wechat') {
-      logs.push(`[微信] 📄 注入微信富文本排版引擎，渲染公众号首字大写段落样式`);
+      logs.push(`[微博] 📝 编译内容变体: "【首发爆料】${title.slice(0, 15)}..."`);
     }
 
-    logs.push(`[${platform.toUpperCase()}] 🖲️ 模拟鼠标悬浮 [确认发布] 按钮 (坐标: X=452, Y=812)`);
-    logs.push(`[${platform.toUpperCase()}] 🔘 执行物理点击事件，等待目标平台回执服务器响应...`);
-    logs.push(`[${platform.toUpperCase()}] 🎉 [${name}] 发布成功！链接: https://www.${platform}.com/post/omni_${Math.floor(100000 + Math.random() * 900000)}`);
+    logs.push(`[${platform.toUpperCase()}] 📤 正在通过隔离会话分块编码并上传多媒体图片附件...`);
+    logs.push(`[${platform.toUpperCase()}] ✍️ 正在定位目标编辑器 DOM 元素并注入富文本格式...`);
+    
+    if (platform === 'xiaohongshu') {
+      logs.push(`[小红书] 📝 自动匹配卡片编辑器，完成表情 Emoji 智能段落间隔排版`);
+    } else if (platform === 'weibo') {
+      logs.push(`[微博] ⚡ 校验 140 字短文限制，自动过滤长空行，嵌入高权对话题`);
+    } else if (platform === 'wechat') {
+      logs.push(`[微信] 📄 注入微信公众号专用 CSS 富文本格式，选用【春日燕麦】配色排版`);
+    }
+
+    // 错峰时序
+    logs.push(`[${platform.toUpperCase()}] ⏳ 开启错峰避风控发布机制，防大规模并发群发检测`);
+    if (platform === 'xiaohongshu') {
+      logs.push(`[小红书] ⏳ 触发排期错峰机制，自动延迟 2 分钟发布`);
+    } else if (platform === 'weibo') {
+      logs.push(`[微博] ⏳ 触发排期错峰机制，自动延迟 7 分钟发布`);
+    } else if (platform === 'wechat') {
+      logs.push(`[微信] ⏳ 触发排期错峰机制，自动延迟 14 分钟发布`);
+    }
+
+    logs.push(`[${platform.toUpperCase()}] 🔘 执行物理点击事件，模拟真实人手点击 (坐标: X=452, Y=812)`);
+    logs.push(`[${platform.toUpperCase()}] 🎉 [${name}] 发布成功！分发安全级别: EXCELLENT`);
+    logs.push(`[${platform.toUpperCase()}] 📄 推送回执链接: https://www.${platform}.com/post/omni_${Math.floor(100000 + Math.random() * 900000)}`);
   });
 
-  logs.push(`\n[SYSTEM] [${new Date().toLocaleTimeString()}] ✅ 所有目标渠道分发任务执行完毕！发布耗时: 2.45s。`);
+  logs.push(`\n[SYSTEM] [${new Date().toLocaleTimeString()}] ✅ 所有渠道错峰队列分发完毕！发布耗时: 1.82s (防风控守护生效中)。`);
   return logs;
 };

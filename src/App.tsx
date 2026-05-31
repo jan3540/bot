@@ -22,7 +22,7 @@ function App() {
 
   const [theme, setTheme] = useState<'warm-dark' | 'warm-light' | 'cyber-dark'>(() => {
     const saved = localStorage.getItem('omni-theme');
-    return (saved as any) || 'warm-dark';
+    return (saved as any) || 'warm-light';
   });
 
   const [isConsoleOpen, setIsConsoleOpen] = useState(false);

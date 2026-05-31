@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { PlatformAccount } from '../utils/mockData';
-import { ShieldCheck, Plus, CheckCircle, AlertTriangle, XCircle, Trash2, Key } from 'lucide-react';
+import { ShieldCheck, Plus, CheckCircle, AlertTriangle, XCircle, Trash2, Key, Fingerprint, Globe, Check, RefreshCw } from 'lucide-react';
 
 interface AccountManagerProps {
   accounts: PlatformAccount[];
@@ -19,6 +19,12 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
   const [newPlatform, setNewPlatform] = useState<'xiaohongshu' | 'weibo' | 'wechat' | 'bilibili'>('xiaohongshu');
   const [newUsername, setNewUsername] = useState('');
   const [newCookie, setNewCookie] = useState('');
+
+  // 指纹盾弹窗状态
+  const [selectedFingerprintAcc, setSelectedFingerprintAcc] = useState<PlatformAccount | null>(null);
+  const [testingProxy, setTestingProxy] = useState(false);
+  const [proxyStatus, setProxyStatus] = useState<'idle' | 'success' | 'failed'>('idle');
+  const [generatingFingerprint, setGeneratingFingerprint] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,15 +79,15 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
   };
 
   return (
-    <div className="account-manager-container glass-card" style={{ padding: '24px', height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <div className="account-manager-container" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <div>
           <h3 style={{ fontSize: '18px', fontWeight: 600, fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <ShieldCheck size={20} style={{ color: 'var(--accent-primary)' }} />
-            账户矩阵安全卫士
+            账户矩阵安全管家
           </h3>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
-            🔒 本地 Cookie 独立隔离，不上传任何云端服务器
+            🔒 本地隔离防风控，设备指纹随机干扰，防多号关联
           </p>
         </div>
         <button className="btn-primary" style={{ padding: '6px 12px', fontSize: '12px' }} onClick={() => setShowAddModal(true)}>
@@ -89,7 +95,7 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
         </button>
       </div>
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', maxHeight: '350px', paddingRight: '4px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', maxHeight: '420px', paddingRight: '4px' }}>
         {accounts.map((account) => (
           <div
             key={account.id}
@@ -133,9 +139,9 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
                       fontSize: '10px',
                       padding: '2px 6px',
                       borderRadius: '10px',
-                      background: 'rgba(139, 92, 246, 0.1)',
+                      background: 'rgba(var(--accent-primary-rgb), 0.12)',
                       color: 'var(--accent-primary)',
-                      border: '1px solid rgba(139, 92, 246, 0.15)'
+                      border: '1px solid rgba(var(--accent-primary-rgb), 0.2)'
                     }}
                   >
                     {account.platformName}
@@ -148,7 +154,30 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {/* 指纹盾安全按钮 */}
+              <button
+                onClick={() => setSelectedFingerprintAcc(account)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: 'var(--accent-primary)',
+                  cursor: 'pointer',
+                  padding: '6px',
+                  borderRadius: '6px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'transform 0.2s',
+                  outline: 'none'
+                }}
+                title="配置防风控隔离数字指纹与代理"
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              >
+                <ShieldCheck size={15} />
+              </button>
+
               <div
                 onClick={() => onToggleStatus(account.id)}
                 style={{
@@ -160,30 +189,31 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
                   borderRadius: '6px',
                   background: 'var(--input-bg)',
                   border: '1px solid var(--border-light)',
-                  fontSize: '12px',
+                  fontSize: '11px',
                   userSelect: 'none',
                   transition: 'all 0.4s'
                 }}
                 title="点击切换授权状态以进行演示测试"
               >
                 {getStatusIcon(account.status)}
-                <span style={{ fontSize: '11px', color: account.status === 'connected' ? '#a7f3d0' : '#fca5a5' }}>
+                <span style={{ fontSize: '10px', color: account.status === 'connected' ? 'var(--color-success)' : 'var(--color-error)' }}>
                   {getStatusText(account.status)}
                 </span>
               </div>
               <button
                 onClick={() => onDeleteAccount(account.id)}
-                style={{ background: 'none', border: 'none', color: 'rgba(239, 68, 68, 0.6)', cursor: 'pointer', padding: '4px', borderRadius: '4px', transition: 'all 0.2s' }}
+                style={{ background: 'none', border: 'none', color: 'rgba(239, 68, 68, 0.6)', cursor: 'pointer', padding: '4px', borderRadius: '4px', transition: 'all 0.2s', outline: 'none' }}
                 onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-error)'}
                 onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(239, 68, 68, 0.6)'}
               >
-                <Trash2 size={14} />
+                <Trash2 size={13} />
               </button>
             </div>
           </div>
         ))}
       </div>
 
+      {/* 绑定账号弹窗 */}
       {showAddModal && (
         <div
           style={{
@@ -247,6 +277,122 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* 指纹盾隔离控制弹窗 */}
+      {selectedFingerprintAcc && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}
+        >
+          <div className="glass-card" style={{ padding: '28px', width: '90%', maxWidth: '480px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', transition: 'all 0.4s' }}>
+            <h4 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '16px', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <ShieldCheck size={20} style={{ color: 'var(--accent-primary)' }} />
+              指纹盾安全防风控配置 - {selectedFingerprintAcc.username}
+            </h4>
+            
+            <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginBottom: '16px', lineHeight: '1.4' }}>
+              🔒 本地浏览器运行环境深度隔离。已为此账号生成专有的虚拟设备特征与代理，防止因同 IP 同设备多号群发触发防刷机制。
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px', background: 'var(--input-bg)', border: '1px solid var(--border-light)', padding: '16px', borderRadius: '12px', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--border-light)', paddingBottom: '6px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>随机隔离代理 IP</span>
+                <span style={{ fontWeight: 600, color: 'var(--accent-secondary)' }}>124.64.18.232 (高匿住宅代理)</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--border-light)', paddingBottom: '6px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>代理连接协议</span>
+                <span>SOCKS5 (已加密防嗅探)</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--border-light)', paddingBottom: '6px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>浏览器内核遮蔽 (User-Agent)</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title="Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0">
+                  Chrome 124 (Windows 10)
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--border-light)', paddingBottom: '6px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>Canvas 2D 噪点指纹</span>
+                <span style={{ color: 'var(--color-success)', fontWeight: 600 }}>已开启 (噪点偏差+0.03px)</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dashed var(--border-light)', paddingBottom: '6px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>WebGL GPU 驱动模拟</span>
+                <span>已启用 (NVIDIA GeForce RTX 4060)</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: 'var(--text-muted)' }}>安全监测防风控分值</span>
+                <span style={{ color: 'var(--color-success)', fontWeight: 700 }}>98/100 (极低关联风险)</span>
+              </div>
+            </div>
+
+            {/* 功能测试交互 */}
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setTestingProxy(true);
+                  setProxyStatus('idle');
+                  setTimeout(() => {
+                    setTestingProxy(false);
+                    setProxyStatus('success');
+                  }, 1200);
+                }}
+                disabled={testingProxy}
+                style={{ flex: 1, padding: '8px 12px', fontSize: '11px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', outline: 'none' }}
+              >
+                {testingProxy ? <RefreshCw size={12} className="spin-animation" /> : <Globe size={12} />}
+                {testingProxy ? '正在诊断代理...' : '测试代理连通性'}
+              </button>
+
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => {
+                  setGeneratingFingerprint(true);
+                  setTimeout(() => {
+                    setGeneratingFingerprint(false);
+                    alert('重构成功！已为您随机置乱 Canvas 噪点、系统字体和声卡硬件特征指纹。');
+                  }, 1000);
+                }}
+                disabled={generatingFingerprint}
+                style={{ flex: 1, padding: '8px 12px', fontSize: '11px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', outline: 'none' }}
+              >
+                {generatingFingerprint ? <RefreshCw size={12} className="spin-animation" /> : <Fingerprint size={12} />}
+                {generatingFingerprint ? '正在重置...' : '重构数字指纹'}
+              </button>
+            </div>
+
+            {/* 代理测试成功提示 */}
+            {proxyStatus === 'success' && (
+              <div style={{ background: 'rgba(21, 128, 61, 0.08)', border: '1px solid var(--color-success)', color: 'var(--color-success)', fontSize: '11px', padding: '8px 12px', borderRadius: '8px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Check size={12} />
+                <span>连接畅通！代理延迟: 42ms. 状态: 独享绿标住宅.</span>
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                type="button"
+                className="btn-primary"
+                style={{ flex: 1, padding: '10px', justifyContent: 'center' }}
+                onClick={() => {
+                  setSelectedFingerprintAcc(null);
+                  setProxyStatus('idle');
+                }}
+              >
+                确认并安全保存
+              </button>
+            </div>
           </div>
         </div>
       )}

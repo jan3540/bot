@@ -5,8 +5,65 @@
 
 :root {
   /* ==========================================
-     默认：暖阳大地 (Warm Clay & Gold - 暖色暗调)
+     默认：春日燕麦 (Spring Latte & Cream - 暖色明调)
      ========================================== */
+  --bg-primary: #fbf9f4;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f5ede3;
+  
+  --accent-primary: #c87a53;     /* 焦糖色 */
+  --accent-primary-rgb: 200, 122, 83;
+  --accent-secondary: #d97706;   /* 蜜糖金 */
+  --accent-secondary-rgb: 217, 119, 6;
+  --accent-pink: #e17f75;        /* 蜜桃粉 */
+  
+  /* 状态颜色 */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-error: #be123c;
+  --color-info: #0369a1;
+
+  /* 文字颜色 */
+  --text-main: #3c2f2f;
+  --text-muted: #7c6a65;
+  --text-dark: #a89690;
+
+  /* 边框与毛玻璃阴影 */
+  --border-light: rgba(200, 122, 83, 0.15);
+  --border-focus: rgba(200, 122, 83, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(200, 122, 83, 0.12);
+  --glass-shadow: rgba(60, 47, 47, 0.06) 0px 8px 32px 0px;
+  --glow-shadow: 0 0 15px rgba(200, 122, 83, 0.15);
+
+  /* 字体族 */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', var(--font-sans);
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* 动效 */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* 特定布局底色与边框 */
+  --header-bg: rgba(251, 249, 244, 0.85);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --tab-container-bg: rgba(60, 47, 47, 0.04);
+  --tab-container-border: rgba(60, 47, 47, 0.06);
+  --tab-active-bg: #f5ede3;
+  --input-bg: rgba(60, 47, 47, 0.02);
+  --input-focus-bg: rgba(60, 47, 47, 0.04);
+  
+  /* 渐变文本色彩 */
+  --gradient-start: #c87a53;
+  --gradient-end: #d97706;
+}
+
+/* ==========================================
+   主题一：暖阳大地 (Warm Clay & Gold - 暖色暗调)
+   ========================================== */
+body[data-theme='warm-dark'] {
   --bg-primary: #151311;
   --bg-secondary: #1d1815;
   --bg-tertiary: #26201c;
@@ -35,16 +92,6 @@
   --glass-border: rgba(255, 255, 255, 0.04);
   --glass-shadow: rgba(0, 0, 0, 0.45) 0px 8px 32px 0px;
   --glow-shadow: 0 0 20px rgba(224, 122, 95, 0.15);
-
-  /* 字体族 */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Outfit', var(--font-sans);
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-  /* 动效 */
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   
   /* 特定布局底色与边框 */
   --header-bg: rgba(21, 19, 17, 0.8);
