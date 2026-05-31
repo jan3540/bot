@@ -97,18 +97,19 @@ export const AIStudio: React.FC<AIStudioProps> = ({
             padding: '8px 12px',
             cursor: 'pointer',
             background: 'var(--bg-secondary)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            color: '#ffffff',
+            border: '1px solid var(--border-light)',
+            color: 'var(--text-main)',
             borderRadius: '8px',
             outline: 'none',
             fontSize: '13px',
-            fontWeight: 500
+            fontWeight: 500,
+            transition: 'all 0.4s'
           }}
         >
-          <option value="xiaohongshu" style={{ background: '#121420', color: '#ffffff' }}>小红书风 (丰富表情、种草卡片)</option>
-          <option value="weibo" style={{ background: '#121420', color: '#ffffff' }}>微博风 (精简痛点、爆款体话题)</option>
-          <option value="wechat" style={{ background: '#121420', color: '#ffffff' }}>微信公众号 (深度段落、结构引用)</option>
-          <option value="bilibili" style={{ background: '#121420', color: '#ffffff' }}>哔哩哔哩动态 (召唤三连、省流助手)</option>
+          <option value="xiaohongshu" style={{ background: 'var(--bg-secondary)', color: 'var(--text-main)' }}>小红书风 (丰富表情、种草卡片)</option>
+          <option value="weibo" style={{ background: 'var(--bg-secondary)', color: 'var(--text-main)' }}>微博风 (精简痛点、爆款体话题)</option>
+          <option value="wechat" style={{ background: 'var(--bg-secondary)', color: 'var(--text-main)' }}>微信公众号 (深度段落、结构引用)</option>
+          <option value="bilibili" style={{ background: 'var(--bg-secondary)', color: 'var(--text-main)' }}>哔哩哔哩动态 (召唤三连、省流助手)</option>
         </select>
 
         <button
@@ -130,8 +131,8 @@ export const AIStudio: React.FC<AIStudioProps> = ({
       <div
         style={{
           flex: 1,
-          background: 'rgba(0,0,0,0.15)',
-          border: '1px solid rgba(255,255,255,0.04)',
+          background: 'rgba(0,0,0,0.12)',
+          border: '1px solid var(--border-light)',
           borderRadius: '12px',
           padding: '16px',
           fontFamily: 'var(--font-sans)',
@@ -144,7 +145,8 @@ export const AIStudio: React.FC<AIStudioProps> = ({
           flexDirection: 'column',
           justifyContent: displayedContent || isGenerating ? 'flex-start' : 'center',
           alignItems: displayedContent || isGenerating ? 'stretch' : 'center',
-          color: 'var(--text-main)'
+          color: 'var(--text-main)',
+          transition: 'all 0.4s'
         }}
       >
         {isGenerating && (
@@ -162,7 +164,7 @@ export const AIStudio: React.FC<AIStudioProps> = ({
 
         {displayedContent && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <div style={{ paddingBottom: '8px', borderBottom: '1px solid rgba(255,255,255,0.06)', fontWeight: 600, color: 'var(--accent-secondary)' }}>
+            <div style={{ paddingBottom: '8px', borderBottom: '1px solid var(--border-light)', fontWeight: 600, color: 'var(--accent-secondary)' }}>
               🎯 生成平台: {platformNames[selectedTarget]}风格
             </div>
             {generatedResult?.title && (
@@ -170,7 +172,7 @@ export const AIStudio: React.FC<AIStudioProps> = ({
                 标题: {generatedResult.title}
               </div>
             )}
-            <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: 'rgba(255,255,255,0.85)' }}>
+            <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: 'var(--text-main)' }}>
               {displayedContent}
               {displayedContent.length < (generatedResult?.content.length || 0) && <span className="terminal-cursor" />}
             </div>

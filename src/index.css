@@ -1,10 +1,116 @@
 /* ==========================================
    OmniPublisher Studio 全局现代视觉系统
-   采用 Sleek Dark Theme + Glassmorphism 风格
+   采用 多主题动态切换 与 极简大气毛玻璃风格
    ========================================== */
 
 :root {
-  /* 调色盘 - 霓虹与深邃暗色体系 */
+  /* ==========================================
+     默认：暖阳大地 (Warm Clay & Gold - 暖色暗调)
+     ========================================== */
+  --bg-primary: #151311;
+  --bg-secondary: #1d1815;
+  --bg-tertiary: #26201c;
+  
+  --accent-primary: #e07a5f;     /* 陶瓦红 */
+  --accent-primary-rgb: 224, 122, 95;
+  --accent-secondary: #f4a261;   /* 暖砂金 */
+  --accent-secondary-rgb: 244, 162, 97;
+  --accent-pink: #e76f51;        /* 珊瑚橘 */
+  
+  /* 状态颜色 */
+  --color-success: #87a96b;
+  --color-warning: #e9c46a;
+  --color-error: #e63946;
+  --color-info: #457b9d;
+
+  /* 文字颜色 */
+  --text-main: #fdfbf7;
+  --text-muted: #c8bfae;
+  --text-dark: #8d8174;
+
+  /* 边框与毛玻璃阴影 */
+  --border-light: rgba(224, 122, 95, 0.12);
+  --border-focus: rgba(224, 122, 95, 0.4);
+  --glass-bg: rgba(29, 24, 21, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.04);
+  --glass-shadow: rgba(0, 0, 0, 0.45) 0px 8px 32px 0px;
+  --glow-shadow: 0 0 20px rgba(224, 122, 95, 0.15);
+
+  /* 字体族 */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Outfit', var(--font-sans);
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* 动效 */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* 特定布局底色与边框 */
+  --header-bg: rgba(21, 19, 17, 0.8);
+  --card-bg: rgba(38, 32, 28, 0.3);
+  --tab-container-bg: rgba(255, 255, 255, 0.03);
+  --tab-container-border: rgba(255, 255, 255, 0.05);
+  --tab-active-bg: rgba(224, 122, 95, 0.18);
+  --input-bg: rgba(255, 255, 255, 0.02);
+  --input-focus-bg: rgba(255, 255, 255, 0.04);
+  
+  /* 渐变文本色彩 */
+  --gradient-start: #e07a5f;
+  --gradient-end: #f4a261;
+}
+
+/* ==========================================
+   主题二：春日燕麦 (Spring Latte & Cream - 暖色明调)
+   ========================================== */
+body[data-theme='warm-light'] {
+  --bg-primary: #fbf9f4;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f5ede3;
+  
+  --accent-primary: #c87a53;     /* 焦糖色 */
+  --accent-primary-rgb: 200, 122, 83;
+  --accent-secondary: #d97706;   /* 蜜糖金 */
+  --accent-secondary-rgb: 217, 119, 6;
+  --accent-pink: #e17f75;        /* 蜜桃粉 */
+  
+  /* 状态颜色 */
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-error: #be123c;
+  --color-info: #0369a1;
+
+  /* 文字颜色 */
+  --text-main: #3c2f2f;
+  --text-muted: #7c6a65;
+  --text-dark: #a89690;
+
+  /* 边框与毛玻璃阴影 */
+  --border-light: rgba(200, 122, 83, 0.15);
+  --border-focus: rgba(200, 122, 83, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(200, 122, 83, 0.12);
+  --glass-shadow: rgba(60, 47, 47, 0.06) 0px 8px 32px 0px;
+  --glow-shadow: 0 0 15px rgba(200, 122, 83, 0.15);
+  
+  /* 特定布局底色与边框 */
+  --header-bg: rgba(251, 249, 244, 0.85);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --tab-container-bg: rgba(60, 47, 47, 0.04);
+  --tab-container-border: rgba(60, 47, 47, 0.06);
+  --tab-active-bg: #f5ede3;
+  --input-bg: rgba(60, 47, 47, 0.02);
+  --input-focus-bg: rgba(60, 47, 47, 0.04);
+  
+  /* 渐变文本色彩 */
+  --gradient-start: #c87a53;
+  --gradient-end: #d97706;
+}
+
+/* ==========================================
+   主题三：经典冷调 (Sleek Cyber - 极客幻彩)
+   ========================================== */
+body[data-theme='cyber-dark'] {
   --bg-primary: #090a0f;
   --bg-secondary: #121420;
   --bg-tertiary: #1a1d30;
@@ -33,16 +139,19 @@
   --glass-border: rgba(255, 255, 255, 0.06);
   --glass-shadow: rgba(0, 0, 0, 0.35) 0px 8px 32px 0px;
   --glow-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
-
-  /* 字体族 */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Outfit', var(--font-sans);
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-
-  /* 动效 */
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* 特定布局底色与边框 */
+  --header-bg: rgba(9, 10, 15, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --tab-container-bg: rgba(255, 255, 255, 0.02);
+  --tab-container-border: rgba(255, 255, 255, 0.04);
+  --tab-active-bg: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.04);
+  --input-focus-bg: rgba(255, 255, 255, 0.06);
+  
+  /* 渐变文本色彩 */
+  --gradient-start: #a78bfa;
+  --gradient-end: #22d3ee;
 }
 
 * {
@@ -54,14 +163,16 @@
 body {
   background-color: var(--bg-primary);
   background-image: 
-    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+    radial-gradient(at 0% 0%, rgba(var(--accent-primary-rgb), 0.06) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(var(--accent-secondary-rgb), 0.06) 0px, transparent 50%);
   color: var(--text-main);
   font-family: var(--font-sans);
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 平滑主题过渡动画 */
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* 核心毛玻璃卡片 */
@@ -72,12 +183,13 @@ body {
   border: 1px solid var(--glass-border);
   border-radius: 16px;
   box-shadow: var(--glass-shadow);
-  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
+  /* 增加背景渐变和边框过渡动画，使切换主题和悬浮极其丝滑 */
+  transition: background 0.4s ease, transform var(--transition-normal), border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .glass-card:hover {
-  border-color: rgba(139, 92, 246, 0.2);
-  box-shadow: rgba(139, 92, 246, 0.08) 0px 8px 32px 0px;
+  border-color: rgba(var(--accent-primary-rgb), 0.25);
+  box-shadow: rgba(var(--accent-primary-rgb), 0.08) 0px 8px 32px 0px;
 }
 
 /* 自定义滚动条 */
@@ -91,8 +203,9 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(var(--accent-primary-rgb), 0.15);
   border-radius: 3px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -106,13 +219,14 @@ body {
   flex-direction: column;
 }
 
-/* 霓虹文字渐变 */
+/* 霓虹/暖金文字渐变 */
 .gradient-text {
-  background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+  background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-family: var(--font-display);
+  transition: background 0.4s ease;
 }
 
 /* 闪烁呼吸灯效果 */
@@ -146,7 +260,7 @@ body {
 
 /* 输入框通用样式 */
 input, textarea, select {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--input-bg);
   border: 1px solid var(--border-light);
   color: var(--text-main);
   border-radius: 8px;
@@ -154,18 +268,19 @@ input, textarea, select {
   font-family: var(--font-sans);
   font-size: 14px;
   outline: none;
-  transition: all var(--transition-fast);
+  /* 增加切换主题过渡 */
+  transition: background 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.4s ease;
 }
 
 input:focus, textarea:focus, select:focus {
   border-color: var(--accent-primary);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.15);
+  background: var(--input-focus-bg);
+  box-shadow: 0 0 10px rgba(var(--accent-primary-rgb), 0.15);
 }
 
 /* 按钮通用样式 */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #7c3aed 100%);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, rgba(var(--accent-primary-rgb), 0.8) 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -175,13 +290,13 @@ input:focus, textarea:focus, select:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all var(--transition-fast);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  transition: all var(--transition-fast), background-color 0.4s ease;
+  box-shadow: 0 4px 12px rgba(var(--accent-primary-rgb), 0.25);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 20px rgba(var(--accent-primary-rgb), 0.35);
 }
 
 .btn-primary:active {
@@ -189,7 +304,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(var(--accent-primary-rgb), 0.05);
   border: 1px solid var(--border-light);
   color: var(--text-main);
   border-radius: 8px;
@@ -199,12 +314,12 @@ input:focus, textarea:focus, select:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all var(--transition-fast);
+  transition: all var(--transition-fast), background 0.4s ease, color 0.4s ease;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(var(--accent-primary-rgb), 0.12);
+  border-color: rgba(var(--accent-primary-rgb), 0.25);
 }
 
 /* 极客终端打字效果 */
@@ -232,3 +347,4 @@ input:focus, textarea:focus, select:focus {
     opacity: 1;
   }
 }
+

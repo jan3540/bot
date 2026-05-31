@@ -98,10 +98,10 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
               alignItems: 'center',
               justifyContent: 'space-between',
               padding: '12px 16px',
-              background: 'rgba(255, 255, 255, 0.02)',
-              border: `1px solid ${account.status === 'connected' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(255, 255, 255, 0.04)'}`,
+              background: 'var(--input-bg)',
+              border: `1px solid ${account.status === 'connected' ? 'rgba(var(--accent-primary-rgb), 0.25)' : 'var(--border-light)'}`,
               borderRadius: '12px',
-              transition: 'all 0.2s'
+              transition: 'all 0.4s'
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -109,7 +109,7 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
                 <img
                   src={account.avatar}
                   alt={account.username}
-                  style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(255,255,255,0.1)' }}
+                  style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border-light)' }}
                 />
                 <span
                   style={{
@@ -158,10 +158,11 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
                   cursor: 'pointer',
                   padding: '4px 8px',
                   borderRadius: '6px',
-                  background: 'rgba(255,255,255,0.03)',
-                  border: '1px solid rgba(255,255,255,0.05)',
+                  background: 'var(--input-bg)',
+                  border: '1px solid var(--border-light)',
                   fontSize: '12px',
-                  userSelect: 'none'
+                  userSelect: 'none',
+                  transition: 'all 0.4s'
                 }}
                 title="点击切换授权状态以进行演示测试"
               >
@@ -196,7 +197,7 @@ export const AccountManager: React.FC<AccountManagerProps> = ({
             zIndex: 999
           }}
         >
-          <div className="glass-card" style={{ padding: '24px', width: '90%', maxWidth: '400px', background: 'var(--bg-secondary)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="glass-card" style={{ padding: '24px', width: '90%', maxWidth: '400px', background: 'var(--bg-secondary)', border: '1px solid var(--border-light)', transition: 'all 0.4s' }}>
             <h4 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '16px', fontFamily: 'var(--font-display)', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Key size={18} style={{ color: 'var(--accent-primary)' }} />
               绑定新矩阵账号

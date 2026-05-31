@@ -24,8 +24,8 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
     <div
       className="glass-card"
       style={{
-        background: '#04060f',
-        border: '1px solid rgba(139, 92, 246, 0.15)',
+        background: 'rgba(0, 0, 0, 0.35)',
+        border: '1px solid var(--border-light)',
         borderRadius: '16px',
         padding: '20px',
         fontFamily: 'var(--font-mono)',
@@ -33,10 +33,11 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
         flexDirection: 'column',
         gap: '12px',
         height: '300px',
-        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.8), var(--glass-shadow)'
+        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.6), var(--glass-shadow)',
+        transition: 'all 0.4s'
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '10px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-light)', paddingBottom: '10px', transition: 'border-color 0.4s' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-secondary)' }}>
           <Terminal size={18} />
           <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.5px' }}>可视化跨平台分发仿真终端 (OmniEngine console)</span>
@@ -90,7 +91,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
           logs.map((log, index) => {
             let color = '#d1d5db'; // text-gray-300
             if (log.includes('[SYSTEM]')) {
-              color = '#a78bfa'; // accent purple
+              color = 'var(--accent-primary)'; // accent color
             } else if (log.includes('[XIAOHONGSHU]') || log.includes('[小红书]')) {
               color = '#f87171'; // red/pink
             } else if (log.includes('[WEIBO]') || log.includes('[微博]')) {

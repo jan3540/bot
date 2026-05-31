@@ -55,9 +55,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ accounts, onViewEditor }) 
               display: 'flex',
               flexDirection: 'column',
               gap: '12px',
-              background: 'rgba(255, 255, 255, 0.02)',
+              background: 'var(--card-bg)',
               position: 'relative',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              transition: 'background 0.4s, border-color 0.4s, box-shadow 0.4s'
             }}
           >
             {/* 卡片右上角模糊底色，提高视觉品质 */}
@@ -96,7 +97,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ accounts, onViewEditor }) 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
         {/* 左侧：矩阵矩阵状态看板 */}
         <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-display)', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '10px' }}>
+          <h3 style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-display)', borderBottom: '1px solid var(--border-light)', paddingBottom: '10px' }}>
             矩阵平台可用性
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -129,7 +130,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ accounts, onViewEditor }) 
 
         {/* 右侧：排程发布任务队列 */}
         <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h3 style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-display)', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <h3 style={{ fontSize: '16px', fontWeight: 600, fontFamily: 'var(--font-display)', borderBottom: '1px solid var(--border-light)', paddingBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <Calendar size={16} style={{ color: 'var(--accent-secondary)' }} />
             排期推送队列 (Scheduled Flow)
           </h3>
@@ -137,15 +138,16 @@ export const Dashboard: React.FC<DashboardProps> = ({ accounts, onViewEditor }) 
             {QUEUED_TASKS.map(task => (
               <div
                 key={task.id}
-                style={{
-                  padding: '10px 14px',
-                  background: 'rgba(255,255,255,0.01)',
-                  border: '1px solid rgba(255,255,255,0.03)',
-                  borderRadius: '8px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
-                }}
+                  style={{
+                    padding: '10px 14px',
+                    background: 'var(--input-bg)',
+                    border: '1px solid var(--border-light)',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    transition: 'all 0.4s'
+                  }}
               >
                 <div>
                   <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-main)' }}>{task.title}</div>
@@ -178,17 +180,18 @@ export const Dashboard: React.FC<DashboardProps> = ({ accounts, onViewEditor }) 
         className="glass-card"
         style={{
           padding: '24px',
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%)',
-          border: '1px solid rgba(139, 92, 246, 0.2)',
+          background: 'linear-gradient(135deg, rgba(var(--accent-primary-rgb), 0.1) 0%, rgba(var(--accent-secondary-rgb), 0.1) 100%)',
+          border: '1px solid rgba(var(--accent-primary-rgb), 0.25)',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '16px'
+          gap: '16px',
+          transition: 'all 0.4s'
         }}
       >
         <div>
-          <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#fff', fontFamily: 'var(--font-display)' }}>
+          <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>
             💡 实训营评委特别提示: 多端本地加密方案演示说明
           </h4>
           <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px', lineHeight: '1.5', maxWidth: '650px' }}>

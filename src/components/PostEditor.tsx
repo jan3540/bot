@@ -86,8 +86,8 @@ export const PostEditor: React.FC<PostEditorProps> = ({
   return (
     <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px', height: '100%' }}>
       {/* 头部状态 */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '12px' }}>
-        <h3 style={{ fontSize: '18px', fontWeight: 600, fontFamily: 'var(--font-display)', color: 'var(--accent-primary)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-light)', paddingBottom: '12px', transition: 'border-color 0.4s' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: 600, fontFamily: 'var(--font-display)', color: 'var(--accent-primary)', transition: 'color 0.4s' }}>
           创作编辑器 (Publisher Core)
         </h3>
         <span style={{ fontSize: '11px', color: 'var(--text-muted)' }}>草稿已自动保存至本地</span>
@@ -101,7 +101,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({
           placeholder="给你的内容起一个引人注目的标题吧..."
           value={draft.title}
           onChange={handleTitleChange}
-          style={{ fontSize: '15px', fontWeight: 600, border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.02)' }}
+          style={{ fontSize: '15px', fontWeight: 600, border: '1px solid var(--border-light)', background: 'var(--input-bg)' }}
         />
       </div>
 
@@ -120,8 +120,8 @@ export const PostEditor: React.FC<PostEditorProps> = ({
             lineHeight: '1.6',
             resize: 'none',
             flex: 1,
-            background: 'rgba(255,255,255,0.02)',
-            border: '1px solid rgba(255,255,255,0.08)'
+            background: 'var(--input-bg)',
+            border: '1px solid var(--border-light)'
           }}
         />
       </div>
@@ -135,7 +135,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({
         {/* 已选图片展示 */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           {draft.images.map((img, idx) => (
-            <div key={idx} style={{ position: 'relative', width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <div key={idx} style={{ position: 'relative', width: '60px', height: '60px', borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-light)' }}>
               <img src={img} alt="attached" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               <button
                 onClick={() => handleRemoveImage(img)}
@@ -161,7 +161,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({
                   onClick={() => handleAddPresetImage(img)}
                   style={{
                     width: '32px', height: '32px', borderRadius: '6px', overflow: 'hidden',
-                    cursor: 'pointer', border: '1px solid rgba(255,255,255,0.06)', opacity: 0.7,
+                    cursor: 'pointer', border: '1px solid var(--border-light)', opacity: 0.7,
                     transition: 'all 0.2s'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
@@ -186,12 +186,13 @@ export const PostEditor: React.FC<PostEditorProps> = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '4px',
-                background: 'rgba(139, 92, 246, 0.1)',
-                border: '1px solid rgba(139, 92, 246, 0.2)',
+                background: 'rgba(var(--accent-primary-rgb), 0.12)',
+                border: '1px solid rgba(var(--accent-primary-rgb), 0.25)',
                 color: 'var(--accent-primary)',
                 padding: '2px 8px',
                 borderRadius: '6px',
-                fontSize: '11px'
+                fontSize: '11px',
+                transition: 'all 0.4s'
               }}
             >
               #{tag}
@@ -213,7 +214,7 @@ export const PostEditor: React.FC<PostEditorProps> = ({
       {/* 目标渠道与发布动作 */}
       <div
         style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
+          borderTop: '1px solid var(--border-light)',
           paddingTop: '16px',
           display: 'flex',
           flexDirection: 'column',
@@ -237,12 +238,12 @@ export const PostEditor: React.FC<PostEditorProps> = ({
                     gap: '8px',
                     padding: '8px 12px',
                     borderRadius: '8px',
-                    background: isSelected ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255,255,255,0.02)',
-                    border: `1px solid ${isSelected ? 'var(--accent-primary)' : 'rgba(255,255,255,0.06)'}`,
+                    background: isSelected ? 'var(--tab-active-bg)' : 'var(--input-bg)',
+                    border: `1px solid ${isSelected ? 'var(--accent-primary)' : 'var(--border-light)'}`,
                     cursor: isConnected ? 'pointer' : 'not-allowed',
                     opacity: isConnected ? 1 : 0.4,
                     userSelect: 'none',
-                    transition: 'all 0.2s'
+                    transition: 'all 0.3s'
                   }}
                   title={isConnected ? '' : '请先在右侧面板授权登录此账户'}
                 >
@@ -299,10 +300,11 @@ export const PostEditor: React.FC<PostEditorProps> = ({
               alignItems: 'center',
               gap: '10px',
               padding: '12px',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'var(--input-bg)',
+              border: '1px solid var(--border-light)',
               borderRadius: '8px',
-              animation: 'slideDown 0.3s ease'
+              animation: 'slideDown 0.3s ease',
+              transition: 'all 0.4s'
             }}
           >
             <AlertCircle size={14} style={{ color: 'var(--accent-secondary)' }} />

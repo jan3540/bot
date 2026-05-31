@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { INITIAL_ACCOUNTS, INITIAL_DRAFT, getPublishingLogs } from './utils/mockData';
 import type { PlatformAccount, DraftPost } from './utils/mockData';
 import { Dashboard } from './components/Dashboard';
@@ -8,7 +8,7 @@ import { AccountManager } from './components/AccountManager';
 import { AIStudio } from './components/AIStudio';
 import { TerminalConsole } from './components/TerminalConsole';
 import type { AIAdaptationResult } from './utils/aiAdapters';
-import { Sparkles, Activity, Layers, ExternalLink } from 'lucide-react';
+import { Sparkles, Activity, Layers, ExternalLink, Palette } from 'lucide-react';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'editor'>('dashboard');
@@ -18,6 +18,16 @@ function App() {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+
+  const [theme, setTheme] = useState<'warm-dark' | 'warm-light' | 'cyber-dark'>(() => {
+    const saved = localStorage.getItem('omni-theme');
+    return (saved as any) || 'warm-dark';
+  });
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('omni-theme', theme);
+  }, [theme]);
 
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ message, type });
@@ -120,12 +130,13 @@ function App() {
       {/* 顶部绚丽导航栏 */}
       <header
         style={{
-          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          background: 'rgba(9, 10, 15, 0.8)',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'var(--header-bg)',
           backdropFilter: 'blur(20px)',
           position: 'sticky',
           top: 0,
-          zIndex: 100
+          zIndex: 100,
+          transition: 'background 0.4s ease, border-color 0.4s ease'
         }}
       >
         <div
@@ -135,7 +146,9 @@ function App() {
             padding: '16px 24px',
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '16px'
           }}
         >
           {/* Logo 区域 */}
@@ -149,7 +162,8 @@ function App() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)'
+                boxShadow: '0 4px 12px rgba(var(--accent-primary-rgb), 0.25)',
+                transition: 'all 0.4s ease'
               }}
             >
               <Layers size={18} style={{ color: '#fff' }} />
@@ -174,13 +188,13 @@ function App() {
           </div>
 
           {/* 导航标签切换 */}
-          <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)', padding: '4px', borderRadius: '10px' }}>
+          <div style={{ display: 'flex', gap: '8px', background: 'var(--tab-container-bg)', border: '1px solid var(--tab-container-border)', padding: '4px', borderRadius: '10px', transition: 'background 0.4s, border-color 0.4s' }}>
             <button
               onClick={() => setActiveTab('dashboard')}
               style={{
-                background: activeTab === 'dashboard' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                background: activeTab === 'dashboard' ? 'var(--tab-active-bg)' : 'transparent',
                 border: 'none',
-                color: activeTab === 'dashboard' ? '#fff' : 'var(--text-muted)',
+                color: activeTab === 'dashboard' ? 'var(--text-main)' : 'var(--text-muted)',
                 padding: '8px 16px',
                 borderRadius: '8px',
                 cursor: 'pointer',
@@ -197,9 +211,9 @@ function App() {
             <button
               onClick={() => setActiveTab('editor')}
               style={{
-                background: activeTab === 'editor' ? 'rgba(255, 255, 255, 0.08)' : 'transparent',
+                background: activeTab === 'editor' ? 'var(--tab-active-bg)' : 'transparent',
                 border: 'none',
-                color: activeTab === 'editor' ? '#fff' : 'var(--text-muted)',
+                color: activeTab === 'editor' ? 'var(--text-main)' : 'var(--text-muted)',
                 padding: '8px 16px',
                 borderRadius: '8px',
                 cursor: 'pointer',
@@ -215,8 +229,53 @@ function App() {
             </button>
           </div>
 
-          {/* 右侧小红标 */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* 右侧主题选择与小红标 */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            {/* 动态主题切换器 (Segmented Controller) */}
+            <div
+              style={{
+                display: 'flex',
+                background: 'var(--tab-container-bg)',
+                border: '1px solid var(--tab-container-border)',
+                padding: '3px',
+                borderRadius: '10px',
+                alignItems: 'center',
+                gap: '2px',
+                transition: 'all 0.4s ease'
+              }}
+            >
+              <Palette size={13} style={{ color: 'var(--text-muted)', marginLeft: '6px', marginRight: '4px' }} />
+              {(['warm-dark', 'warm-light', 'cyber-dark'] as const).map((t) => {
+                const names = {
+                  'warm-dark': '暖阳大地',
+                  'warm-light': '春日燕麦',
+                  'cyber-dark': '极客幻彩'
+                };
+                const active = theme === t;
+                return (
+                  <button
+                    key={t}
+                    onClick={() => setTheme(t)}
+                    style={{
+                      background: active ? 'var(--accent-primary)' : 'transparent',
+                      color: active ? '#ffffff' : 'var(--text-muted)',
+                      border: 'none',
+                      padding: '5px 12px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: '11px',
+                      fontWeight: active ? '600' : '400',
+                      transition: 'all 0.3s ease',
+                      outline: 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {names[t]}
+                  </button>
+                );
+              })}
+            </div>
+
             <a
               href="https://github.com/gitcoffee-os/postbot"
               target="_blank"
@@ -231,10 +290,10 @@ function App() {
                 background: 'rgba(255,255,255,0.03)',
                 padding: '6px 12px',
                 borderRadius: '8px',
-                border: '1px solid rgba(255,255,255,0.05)',
+                border: '1px solid var(--border-light)',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--text-main)'; e.currentTarget.style.background = 'var(--tab-active-bg)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; }}
             >
               参考 PostBot <ExternalLink size={12} />
@@ -327,20 +386,21 @@ function App() {
             position: 'fixed',
             top: '24px',
             right: '24px',
-            background: 'rgba(18, 20, 32, 0.85)',
+            background: 'var(--glass-bg)',
             backdropFilter: 'blur(16px)',
-            border: toast.type === 'success' ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid rgba(139, 92, 246, 0.3)',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
+            border: '1px solid var(--border-light)',
+            boxShadow: 'var(--glass-shadow)',
             borderRadius: '12px',
             padding: '16px 20px',
             zIndex: 9999,
-            color: '#fff',
+            color: 'var(--text-main)',
             fontSize: '13px',
             fontWeight: '500',
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            animation: 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
+            animation: 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+            transition: 'all 0.4s'
           }}
         >
           <span style={{ fontSize: '18px' }}>{toast.type === 'success' ? '🎉' : '✨'}</span>

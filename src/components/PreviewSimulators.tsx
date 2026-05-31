@@ -43,7 +43,7 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
       </div>
 
       {/* 平台切换 Tab */}
-      <div style={{ display: 'flex', gap: '4px', background: 'rgba(0,0,0,0.2)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.04)' }}>
+      <div style={{ display: 'flex', gap: '4px', background: 'var(--tab-container-bg)', padding: '4px', borderRadius: '10px', border: '1px solid var(--tab-container-border)', transition: 'all 0.4s' }}>
         {(['xiaohongshu', 'weibo', 'wechat', 'bilibili'] as const).map((plat) => {
           const names = { xiaohongshu: '小红书', weibo: '新浪微博', wechat: '微信公众号', bilibili: '哔哩哔哩' };
           const activeColor = {
@@ -80,8 +80,8 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
       <div
         style={{
           flex: 1,
-          background: 'rgba(0, 0, 0, 0.25)',
-          border: '1px solid rgba(255,255,255,0.03)',
+          background: 'rgba(0, 0, 0, 0.15)',
+          border: '1px solid var(--border-light)',
           borderRadius: '16px',
           display: 'flex',
           justifyContent: 'center',
@@ -89,7 +89,8 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
           padding: '20px',
           overflowY: 'auto',
           minHeight: '400px',
-          maxHeight: '520px'
+          maxHeight: '520px',
+          transition: 'all 0.4s'
         }}
       >
         {/* 小红书手机端模拟 */}
@@ -185,11 +186,12 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
               width: '340px',
               background: '#18181f',
               color: '#e5e7eb',
-              border: '1px solid rgba(255,255,255,0.08)',
+              border: '1px solid var(--border-light)',
               borderRadius: '16px',
               padding: '16px',
               textAlign: 'left',
-              fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif'
+              fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif',
+              transition: 'border-color 0.4s'
             }}
           >
             {/* 微博作者 */}
@@ -231,7 +233,7 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
             )}
 
             {/* 底栏三连 */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border-light)', paddingTop: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><Share2 size={13} /> 转发</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><MessageCircle size={13} /> 评论</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><Heart size={13} /> 点赞</span>
@@ -301,11 +303,12 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
             style={{
               width: '340px',
               background: '#1e202e',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              border: '1px solid var(--border-light)',
               borderRadius: '12px',
               padding: '16px',
               textAlign: 'left',
-              fontFamily: 'sans-serif'
+              fontFamily: 'sans-serif',
+              transition: 'border-color 0.4s'
             }}
           >
             {/* UP主头部 */}
@@ -344,7 +347,7 @@ export const PreviewSimulators: React.FC<PreviewSimulatorsProps> = ({
             )}
 
             {/* 动态底栏 */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid var(--border-light)', paddingTop: '10px', fontSize: '11px', color: 'var(--text-muted)' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><Share2 size={13} /> 转发 (45)</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><MessageCircle size={13} /> 评论 (182)</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}><Heart size={13} /> 点赞 (891)</span>
