@@ -70,29 +70,49 @@ function App() {
     setIsPublishing(true);
     setLogs([]);
 
-    const fullLogs = getPublishingLogs(targetPlatforms, draft.title);
-    let currentLogIndex = 0;
+    try {
+      const titleSafe = draft.title || '无标题发布';
+      const fullLogs = getPublishingLogs(targetPlatforms, titleSafe);
+      let currentLogIndex = 0;
 
-    // 渐进式渲染日志以仿真 Puppeteer 运行状态
-    const interval = setInterval(() => {
-      if (currentLogIndex < fullLogs.length) {
-        setLogs(prev => [...prev, fullLogs[currentLogIndex]]);
-        currentLogIndex++;
-      } else {
-        clearInterval(interval);
-        setIsPublishing(false);
-        
-        // 发布成功，动态为对应账户加 1 篇已发文章
-        setAccounts(prev => prev.map(acc => {
-          if (targetPlatforms.includes(acc.platform)) {
-            return { ...acc, postsCount: acc.postsCount + 1 };
+      // 渐进式渲染日志以仿真 Puppeteer 运行状态
+      const interval = setInterval(() => {
+        try {
+          if (currentLogIndex < fullLogs.length) {
+            setLogs(prev => {
+              const nextLog = fullLogs[currentLogIndex];
+              return nextLog ? [...prev, nextLog] : prev;
+            });
+            currentLogIndex++;
+          } else {
+            clearInterval(interval);
+            setIsPublishing(false);
+            
+            // 发布成功，动态为对应账户加 1 篇已发文章
+            setAccounts(prev => {
+              if (!Array.isArray(prev)) return prev;
+              return prev.map(acc => {
+                if (acc && acc.platform && targetPlatforms.includes(acc.platform)) {
+                  return { ...acc, postsCount: (acc.postsCount || 0) + 1 };
+                }
+                return acc;
+              });
+            });
+
+            showToast('恭喜！多平台矩阵一键分发与安全指纹推送圆满成功！', 'success');
           }
-          return acc;
-        }));
-
-        showToast('恭喜！多平台矩阵一键分发与安全指纹推送圆满成功！', 'success');
-      }
-    }, 250); // 每250ms输出一条极客日志
+        } catch (innerError) {
+          clearInterval(interval);
+          setIsPublishing(false);
+          console.error("Publishing interval runtime error:", innerError);
+          showToast('分发日志流动过程中发生运行时异常，引擎已安全挂起。', 'error');
+        }
+      }, 250); // 每250ms输出一条极客日志
+    } catch (err) {
+      setIsPublishing(false);
+      console.error("Failed to boot publishing logs engine:", err);
+      showToast('启动多渠道分发引擎失败，请检查数据完整性。', 'error');
+    }
   };
 
   return (
