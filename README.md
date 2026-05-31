@@ -2,7 +2,7 @@
 
 > **2026 暑期实训营项目实战优秀选拔作品**  
 > 兼具极简拟物美学、高还原度多端视窗模拟、以及一键 AI 矩阵风格转译的本地化自媒体分发提效工具。  
-> 📽️ **演示视频**：[点击前往 Bilibili 📺](https://t.bilibili.com/1208575677972873238?share_source=pc_native)
+> 📽️ **演示视频**：[点击前往 Bilibili 📺](https://www.bilibili.com/video/BV1vFVS6YEzy/?spm_id_from=333.1368.list.card_archive.click)
 
 ---
 
