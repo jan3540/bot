@@ -5,12 +5,16 @@ interface TerminalConsoleProps {
   logs: string[];
   isPublishing: boolean;
   onClearLogs: () => void;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
 export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
   logs,
   isPublishing,
-  onClearLogs
+  onClearLogs,
+  isOpen,
+  onClose
 }) => {
   const terminalEndRef = useRef<HTMLDivElement>(null);
 
@@ -22,31 +26,31 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
 
   return (
     <div
-      className="glass-card"
+      className={`drawer-console ${isOpen ? 'drawer-active' : ''}`}
       style={{
-        background: 'rgba(0, 0, 0, 0.35)',
-        border: '1px solid var(--border-light)',
-        borderRadius: '16px',
-        padding: '20px',
+        padding: '12px 24px 24px 24px',
         fontFamily: 'var(--font-mono)',
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
-        height: '300px',
-        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.6), var(--glass-shadow)',
-        transition: 'all 0.4s'
+        boxShadow: 'inset 0 0 20px rgba(0, 0, 0, 0.4), 0 -10px 40px rgba(0, 0, 0, 0.4)',
+        textAlign: 'left'
       }}
     >
+      {/* 顶部点击折叠的手势触控条 */}
+      <div className="drawer-handle" onClick={onClose} title="点击收起控制台" />
+
+      {/* 顶部动作区 */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-light)', paddingBottom: '10px', transition: 'border-color 0.4s' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-secondary)' }}>
-          <Terminal size={18} />
-          <span style={{ fontSize: '13px', fontWeight: 600, letterSpacing: '0.5px' }}>可视化跨平台分发仿真终端 (OmniEngine console)</span>
+          <Terminal size={16} />
+          <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.5px' }}>可视化跨平台分发仿真终端 (OmniEngine console)</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {isPublishing && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: 'var(--accent-secondary)' }}>
               <Cpu size={12} className="spin-animation" />
-              <span>引擎正在执行无头渲染...</span>
+              <span>引擎正在执行无头分发渲染...</span>
             </div>
           )}
           <button
@@ -61,7 +65,8 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
               alignItems: 'center',
               gap: '4px',
               fontSize: '11px',
-              transition: 'all 0.2s'
+              transition: 'all 0.2s',
+              outline: 'none'
             }}
           >
             <Trash2 size={12} /> 清理终端
@@ -69,6 +74,7 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
         </div>
       </div>
 
+      {/* 日志流显示区 */}
       <div
         style={{
           flex: 1,
@@ -84,8 +90,8 @@ export const TerminalConsole: React.FC<TerminalConsoleProps> = ({
       >
         {logs.length === 0 ? (
           <div style={{ margin: 'auto', color: 'var(--text-dark)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-            <Play size={20} />
-            <span>就绪。在上方编辑器中勾选分发账号并点击“一键多平台发布”，此处将输出自动化推送日志。</span>
+            <Play size={18} />
+            <span style={{ fontSize: '11px' }}>控制台空闲。请选择账号并在编辑器点击“一键多端发布”以唤出日志。</span>
           </div>
         ) : (
           logs.map((log, index) => {

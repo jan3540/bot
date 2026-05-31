@@ -8,7 +8,8 @@ import { AccountManager } from './components/AccountManager';
 import { AIStudio } from './components/AIStudio';
 import { TerminalConsole } from './components/TerminalConsole';
 import type { AIAdaptationResult } from './utils/aiAdapters';
-import { Sparkles, Activity, Layers, ExternalLink, Palette } from 'lucide-react';
+import { Sparkles, Activity, Layers, ExternalLink, Palette, Terminal } from 'lucide-react';
+import { SidebarTabs } from './components/SidebarTabs';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'editor'>('dashboard');
@@ -23,6 +24,8 @@ function App() {
     const saved = localStorage.getItem('omni-theme');
     return (saved as any) || 'warm-dark';
   });
+
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
 
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
@@ -77,6 +80,7 @@ function App() {
   const handlePublish = (targetPlatforms: string[]) => {
     if (targetPlatforms.length === 0) return;
     
+    setIsConsoleOpen(true); // 自动滑出控制台抽屉展示日志
     setIsPublishing(true);
     setLogs([]);
 
@@ -310,55 +314,44 @@ function App() {
             onViewEditor={() => setActiveTab('editor')}
           />
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {/* 上部双栏布局 */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px', alignItems: 'stretch' }}>
-              
-              {/* 最左侧：创作编辑器 */}
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <PostEditor
-                  draft={draft}
-                  onChangeDraft={setDraft}
-                  accounts={accounts}
-                  onPublish={handlePublish}
-                  isPublishing={isPublishing}
-                />
-              </div>
-
-              {/* 中间/右侧：实时模拟预览器与 AI 实验室叠拼 */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <PreviewSimulators
-                  title={draft.title}
-                  content={draft.content}
-                  tags={draft.tags}
-                  images={draft.images}
-                />
-                
-                {/* 账号管理器 */}
-                <AccountManager
-                  accounts={accounts}
-                  onToggleStatus={handleToggleStatus}
-                  onAddAccount={handleAddAccount}
-                  onDeleteAccount={handleDeleteAccount}
-                />
-              </div>
-
-              {/* 右侧：AI 改写风格适配器 */}
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <AIStudio
-                  draftTitle={draft.title}
-                  draftContent={draft.content}
-                  onApplyAIResult={handleApplyAIResult}
-                />
-              </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '28px', alignItems: 'stretch' }} className="editor-grid-layout">
+            {/* 左侧大画布：沉浸式原创写作编辑器 */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <PostEditor
+                draft={draft}
+                onChangeDraft={setDraft}
+                accounts={accounts}
+                onPublish={handlePublish}
+                isPublishing={isPublishing}
+              />
             </div>
 
-            {/* 下部：可视化极客仿真发布控制台 */}
-            <div>
-              <TerminalConsole
-                logs={logs}
-                isPublishing={isPublishing}
-                onClearLogs={() => setLogs([])}
+            {/* 右侧：多功能选项卡收纳面板 (整合预览、AI、账号) */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <SidebarTabs
+                previewComponent={
+                  <PreviewSimulators
+                    title={draft.title}
+                    content={draft.content}
+                    tags={draft.tags}
+                    images={draft.images}
+                  />
+                }
+                aiComponent={
+                  <AIStudio
+                    draftTitle={draft.title}
+                    draftContent={draft.content}
+                    onApplyAIResult={handleApplyAIResult}
+                  />
+                }
+                accountsComponent={
+                  <AccountManager
+                    accounts={accounts}
+                    onToggleStatus={handleToggleStatus}
+                    onAddAccount={handleAddAccount}
+                    onDeleteAccount={handleDeleteAccount}
+                  />
+                }
               />
             </div>
           </div>
@@ -421,6 +414,28 @@ function App() {
           </button>
         </div>
       )}
+
+      {/* 极简滑出式极客仿真控制台 Drawer */}
+      <TerminalConsole
+        logs={logs}
+        isPublishing={isPublishing}
+        onClearLogs={() => setLogs([])}
+        isOpen={isConsoleOpen}
+        onClose={() => setIsConsoleOpen(false)}
+      />
+
+      {/* 右下角控制台升降悬浮浮动气泡 */}
+      <button
+        onClick={() => setIsConsoleOpen(!isConsoleOpen)}
+        className="floating-console-trigger"
+        title="展开/隐藏可视化分发控制台"
+        style={{
+          display: activeTab === 'editor' ? 'flex' : 'none',
+          boxShadow: isPublishing ? '0 0 15px var(--accent-primary)' : '0 4px 16px rgba(var(--accent-primary-rgb), 0.35)'
+        }}
+      >
+        <Terminal size={18} className={isPublishing ? "spin-animation" : ""} />
+      </button>
     </div>
   );
 }
